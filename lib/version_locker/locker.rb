@@ -59,7 +59,7 @@ module VersionLocker
     end
 
     def lock_line(match, version)
-      line = "#{match[:indentation]} gem \"#{match[:name]}\", \"#{'~>' if spermy?}#{version}\"#{match[:options]}\n"
+      "#{match[:indentation]} gem \"#{match[:name]}\", \"#{'~>' if spermy?}#{version}\"#{match[:options]}\n"
     end
   end
 end
