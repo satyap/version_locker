@@ -1,7 +1,7 @@
 module VersionLocker
   class Locker
     attr_reader :options
-    GEM_PATTERN = /^(?<indentation> *)gem +['"](?<name>.+?)['"](, ['"](?<version>(~> *)?[\d\.]+)['"])?(?<options>, [^$#]+)?.*$/
+    GEM_PATTERN = /^(?<indentation> *)gem +['"](?<name>.+?)['"](, ['"](?<version>(~> *)?[\d\.]+)['"])?(?<options>, [^#]+?)?( *#.+)?$/
 
     def initialize(options = {})
       @options = options
@@ -59,7 +59,7 @@ module VersionLocker
     end
 
     def lock_line(match, version)
-      "#{match[:indentation]} gem \"#{match[:name]}\", \"#{'~>' if spermy?}#{version}\"#{match[:options]}\n"
+      "#{match[:indentation]}gem \"#{match[:name]}\", \"#{'~>' if spermy?}#{version}\"#{match[:options]}\n"
     end
   end
 end
