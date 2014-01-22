@@ -16,13 +16,20 @@ module VersionLocker
     end
 
     def lock!
-      target.write new_gemfile
+      new_content = new_gemfile
+      with_target do |target|
+        target.write new_content
+      end
     end
 
     private
 
-    def target
-      options.fetch(:target) { File.open(gemfile_path, 'w') }
+    def with_target
+      if options[:target]
+        yield options[:target]
+      else
+        File.open(gemfile_path, 'w'){|f| yield f}
+      end
     end
 
     def old_gemfile_lines
